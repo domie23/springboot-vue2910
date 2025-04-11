@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.YanjingDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.shangjia_id as shangjiaId
+        ,a.yanjing_name as yanjingName
+        ,a.yanjing_photo as yanjingPhoto
+        ,a.yanjing_types as yanjingTypes
+        ,a.caizhi_types as caizhiTypes
+        ,a.jingpian_types as jingpianTypes
+        ,a.pinpai_types as pinpaiTypes
+        ,a.zheshe_types as zhesheTypes
+        ,a.yanse_types as yanseTypes
+        ,a.peijian_types as peijianTypes
+        ,a.shangpin_price as shangpinPrice
+        ,a.yanjing_kucun_number as yanjingKucunNumber
+        ,a.yanjing_old_money as yanjingOldMoney
+        ,a.yanjing_new_money as yanjingNewMoney
+        ,a.yanjing_clicknum as yanjingClicknum
+        ,a.shangxia_types as shangxiaTypes
+        ,a.yanjing_delete as yanjingDelete
+        ,a.yanjing_content as yanjingContent
+        ,a.create_time as createTime
+    </sql>
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.YanjingView" >
+        SELECT
+        <include refid="Base_Column_List" />
+
+--         级联表的字段
+
+        FROM yanjing  a
+
+        <where>
+            <if test="params.ids != null">
+                and a.id in
+                <foreach item="item" index="index" collection="params.ids" open="(" separator="," close=")">
+                #{item}
+                </foreach>
+            </if>
+            <if test="params.shangjiaId != null and params.shangjiaId != ''">
+                and (
+                    a.shangjia_id = #{params.shangjiaId}
+                )
+            </if>
+            <if test=" params.yanjingName != '' and params.yanjingName != null and params.yanjingName != 'null' ">
+                and a.yanjing_name like CONCAT('%',#{params.yanjingName},'%')
+            </if>
+            <if test="params.yanjingTypes != null and params.yanjingTypes != ''">
+                and a.yanjing_types = #{params.yanjingTypes}
+            </if>
+            <if test="params.caizhiTypes != null and params.caizhiTypes != ''">
+                and a.caizhi_types = #{params.caizhiTypes}
+            </if>
+            <if test="params.jingpianTypes != null and params.jingpianTypes != ''">
+                and a.jingpian_types = #{params.jingpianTypes}
+            </if>
+            <if test="params.pinpaiTypes != null and params.pinpaiTypes != ''">
+                and a.pinpai_types = #{params.pinpaiTypes}
+            </if>
+            <if test="params.zhesheTypes != null and params.zhesheTypes != ''">
+                and a.zheshe_types = #{params.zhesheTypes}
+            </if>
+            <if test="params.yanseTypes != null and params.yanseTypes != ''">
+                and a.yanse_types = #{params.yanseTypes}
+            </if>
+            <if test="params.peijianTypes != null and params.peijianTypes != ''">
+                and a.peijian_types = #{params.peijianTypes}
+            </if>
+            <if test="params.shangpinPriceStart != null and params.shangpinPriceStart != ''">
+                <![CDATA[  and a.shangpin_price >= #{params.shangpinPriceStart}   ]]>
+            </if>
+            <if test="params.shangpinPriceEnd != null and params.shangpinPriceEnd != ''">
+                <![CDATA[  and a.shangpin_price <= #{params.shangpinPriceEnd}   ]]>
+            </if>
+             <if test="params.shangpinPrice != null and params.shangpinPrice != ''">
+                and a.shangpin_price = #{params.shangpinPrice}
+             </if>
+            <if test="params.yanjingKucunNumberStart != null and params.yanjingKucunNumberStart != ''">
+                <![CDATA[  and a.yanjing_kucun_number >= #{params.yanjingKucunNumberStart}   ]]>
+            </if>
+            <if test="params.yanjingKucunNumberEnd != null and params.yanjingKucunNumberEnd != ''">
+                <![CDATA[  and a.yanjing_kucun_number <= #{params.yanjingKucunNumberEnd}   ]]>
+            </if>
+             <if test="params.yanjingKucunNumber != null and params.yanjingKucunNumber != ''">
+                and a.yanjing_kucun_number = #{params.yanjingKucunNumber}
+             </if>
+            <if test="params.yanjingOldMoneyStart != null ">
+                <![CDATA[  and a.yanjing_old_money >= #{params.yanjingOldMoneyStart}   ]]>
+            </if>
+            <if test="params.yanjingOldMoneyEnd != null ">
+                <![CDATA[  and a.yanjing_old_money <= #{params.yanjingOldMoneyEnd}   ]]>
+            </if>
+            <if test="params.yanjingNewMoneyStart != null ">
+                <![CDATA[  and a.yanjing_new_money >= #{params.yanjingNewMoneyStart}   ]]>
+            </if>
+            <if test="params.yanjingNewMoneyEnd != null ">
+                <![CDATA[  and a.yanjing_new_money <= #{params.yanjingNewMoneyEnd}   ]]>
+            </if>
+            <if test="params.yanjingClicknumStart != null and params.yanjingClicknumStart != ''">
+                <![CDATA[  and a.yanjing_clicknum >= #{params.yanjingClicknumStart}   ]]>
+            </if>
+            <if test="params.yanjingClicknumEnd != null and params.yanjingClicknumEnd != ''">
+                <![CDATA[  and a.yanjing_clicknum <= #{params.yanjingClicknumEnd}   ]]>
+            </if>
+             <if test="params.yanjingClicknum != null and params.yanjingClicknum != ''">
+                and a.yanjing_clicknum = #{params.yanjingClicknum}
+             </if>
+            <if test="params.shangxiaTypes != null and params.shangxiaTypes != ''">
+                and a.shangxia_types = #{params.shangxiaTypes}
+            </if>
+            <if test="params.yanjingDeleteStart != null and params.yanjingDeleteStart != ''">
+                <![CDATA[  and a.yanjing_delete >= #{params.yanjingDeleteStart}   ]]>
+            </if>
+            <if test="params.yanjingDeleteEnd != null and params.yanjingDeleteEnd != ''">
+                <![CDATA[  and a.yanjing_delete <= #{params.yanjingDeleteEnd}   ]]>
+            </if>
+             <if test="params.yanjingDelete != null and params.yanjingDelete != ''">
+                and a.yanjing_delete = #{params.yanjingDelete}
+             </if>
+            <if test=" params.yanjingContent != '' and params.yanjingContent != null and params.yanjingContent != 'null' ">
+                and a.yanjing_content like CONCAT('%',#{params.yanjingContent},'%')
+            </if>
+
+        </where>
+
+        order by a.${params.orderBy} desc 
+    </select>
+
+</mapper>
